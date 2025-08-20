@@ -1,80 +1,131 @@
+# ⚛️ Atom-Searcher: Enhancing Agentic Deep Research via Fine-Grained Atomic Thought Reward
 
------
-
-# Atom-Searcher: Enhancing Agentic Deep Research via Fine-Grained Atomic Thought Rewards
+<p align="center">
+<a href="https://arxiv.org/abs/2508.12800" target="_blank">
+<img src="https://img.shields.io/badge/arXiv-2508.12800-b31b1b.svg?style=for-the-badge" alt="ArXiv">
+</a>
+<a href="https://huggingface.co/collections/ant-group/atom-searcher" target="_blank">
+<img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow?style=for-the-badge" alt="Hugging Face">
+</a>
+<a href="https://github.com/antgroup/Research-Venus" target="_blank">
+<img src="https://img.shields.io/badge/GitHub-Repo-blue?style=for-the-badge&logo=github" alt="GitHub">
+</a>
+</p>
 
 [简体中文](README_CN.md)
 
+
+
 ## 📖 Introduction
 
-**Atom-Searcher** is an innovative Reinforcement Learning (RL) framework designed to enhance the performance of Large Language Models (LLMs) in **Agentic Deep Research** tasks.
+Atom-Searcher is a novel framework designed to enhance the deep research capabilities of Large Language Models (LLMs). While LLMs show great promise, their static internal knowledge limits their ability to handle complex, multi-step tasksExisting methods like Retrieval-Augmented Generation (RAG) and outcome-based reinforcement learning (RL) often fall short due to rigid workflows, reward sparsity, and conflicting gradients during training.
 
-Although existing agentic research systems can reason and search autonomously, their training relies heavily on sparse, outcome-only reward signals. This approach leads to gradient conflicts and inefficient training, limiting the model's ability to learn optimal research strategies.
+To overcome these challenges, we introduce **Atom-Searcher**, a new reinforcement learning framework built on the concept of **Atomic Thought**. This paradigm decomposes complex reasoning into fine-grained, functional units. Each "atomic thought" is evaluated by a Reasoning Reward Model (RRM), providing a fine-grained **Atomic Thought Reward (ATR)** that guides the agent's learning process.
 
-To address these challenges, we introduce two core concepts:
+The framework uses a curriculum-inspired reward schedule that initially prioritizes high-quality reasoning processes before shifting focus to final outcomes, which accelerates the discovery of effective problem-solving strategies.
 
-1.  **Atomic Thoughts**: We decompose the model's reasoning process into the smallest, functionally meaningful units (e.g., `planning`, `reflection`, `verification`).
-2.  **Atomic Thought Reward (ATR)**: We use a Reasoning Reward Model (RRM) to score these atomic thoughts, providing fine-grained, process-level feedback.
+Key advantages of Atom-Searcher include:
+* **State-of-the-Art Performance**: Achieves consistent improvements over existing models on seven different benchmarks.
+* **Enhanced Interpretability**: Exhibits more human-like and understandable reasoning patterns by breaking down its thought process.
+* **Efficient Training**: Mitigates issues of reward sparsity and gradient conflicts, leading to more efficient policy optimization.
+* **Scalable Computation**: Effectively scales its computational efforts during test-time to tackle more complex queries.
 
-Atom-Searcher employs a dynamic reward aggregation strategy inspired by curriculum learning. It initially focuses on the process-level **ATR** and gradually shifts its focus to outcome-based rewards as training progresses. This design effectively mitigates gradient conflicts and reward sparsity, guiding the model to converge on effective reasoning paths more efficiently.
+<p align="center">
+<img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
+</p>
+-----
+
+# Overview
+
+  * [Key Highlights](https://www.google.com/search?q=%23key-highlights)
+  * [Installation](https://www.google.com/search?q=%23installation)
+  * [Quick Start](https://www.google.com/search?q=%23quick-start)
+  * [Evaluation](https://www.google.com/search?q=%23evaluation)
+  * [Citation](https://www.google.com/search?q=%23citation)
 
 -----
 
-## 🚀 Core Features
+# ✨ Key Highlights
 
-  * **Atomic Thought Abstraction**: For the first time, we propose decomposing the LLM's reasoning process into functional "atomic thoughts" and incentivizing the model to induce these thoughts autonomously, enhancing the interpretability of the model's behavior.
-  * **Fine-Grained Reward Mechanism**: We designed an Atomic Thought Reward (ATR) to provide dense, meaningful intermediate signals for RL training, addressing the gradient conflict and reward sparsity issues found in traditional methods.
-  * **Dynamic Reward Scheduling**: We use dynamically changing weights to aggregate the process reward (ATR) and the outcome reward (F1 score). This allows the reward mechanism to adapt to the model's learning dynamics, focusing on exploration in the early stages and convergence in the later stages.
-  * **Superior Performance**: On 7 authoritative question-answering benchmarks (both in-domain and out-of-domain), Atom-Searcher significantly outperforms existing SOTA agentic research models of the same scale.
+We introduce **Atom-Searcher**, an agentic deep research framework that significantly improves LLM problem-solving by refining the reasoning process itself, not just the final outcome.
 
 -----
 
-## 🛠️ How It Works
+### 💡 Introducing the "Atomic Thought" Paradigm
 
-The Atom-Searcher framework consists of two stages: Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL).
+We propose **Atomic Thought**, a novel thinking paradigm that decomposes complex reasoning into fine-grained, interpretable functional units. [cite\_start]Instead of a single monolithic block of thought, the agent generates a sequence of atomic thoughts like `<OBSERVATION>`, `<HYPOTHESIS_TESTING>`, and `<RISK_ANALYSIS>`  This structured approach leads to:
 
-*Figure 1: Overview of the Atom-Searcher framework. First, the model is taught to generate atomic thoughts via SFT. Then, it is optimized using a hybrid reward signal during RL.*
+  - ✅ More human-like, interpretable, and in-depth reasoning patterns
+  - ✅ Scales computation at test-time
+  - ✅ Provides supervision anchors for RRMs, bridging deep research tasks and RRMs.
 
-### 1\. Atomic Thoughts
-
-We break down the model's thought process `<think>...</think>` into a series of more fine-grained atomic thoughts, such as `<plan>`, `<reflection>`, `<verification>`, etc. We do not predefine a fixed set of atomic thoughts; instead, we guide the model through SFT to learn how to decompose its reasoning process based on different tasks.
-
-### 2\. Reward Modeling
-
-The final reward $R$ used for RL training is a hybrid signal that dynamically combines the **Atomic Thought Reward** ($R\_{atom}$) and the **Outcome Reward** ($R\_{f1}$).
-
-  - **Atomic Thought Reward ($R\_{atom}$)**: We use a powerful Reasoning Reward Model (RRM, e.g., Qwen3-30B) to evaluate the quality of each atomic thought generated by the model and aggregate these scores into $R\_{atom}$.
-  - **Outcome Reward ($R\_{f1}$)**: This is calculated based on the F1 score between the model's final answer and the reference answer.
-  - **Dynamic Aggregation**: We use a linearly decaying coefficient $\\alpha$ to balance these two types of rewards.
-
-$$R = \alpha \cdot R_{\text{atom}} + (1 - \alpha) \cdot R_{f1}$$
-
-Where $\\alpha = 0.5 \\times (1 - \\frac{T}{T\_{\\text{MAX}}})$, $T$ is the current training step, and $T\_{\\text{MAX}}$ is the total number of training steps. In the early stages of training, $\\alpha$ is large, making the process reward dominant; as training progresses, $\\alpha$ decreases, and the weight of the outcome reward increases.
-
-### 3\. Reinforcement Learning Training
-
-We use the **GRPO (Group Relative Policy Optimization)** algorithm, combined with the hybrid reward $R$ described above, to optimize the policy model initialized by SFT. Additionally, we introduce the **Sliding Window Entropy Regularization Mechanism (SWERM)** to prevent policy entropy collapse and ensure training stability.
 
 -----
 
-## 📊 Main Results
+### 🎯 Process-Supervised Reinforcement Learning with Fine-Grained Rewards
 
-We evaluated Atom-Searcher on 4 in-domain (ID) and 3 out-of-domain (OOD) datasets. The results show that, based on the Qwen2.5-7B-Instruct backbone, Atom-Searcher comprehensively surpasses all baseline models, including DeepResearcher.
+Current agents rely on outcome-based reinforcement learning (RL), which suffers from **reward sparsity** and **gradient conflicts**—penalizing an entire reasoning chain for one wrong final answer. Atom-Searcher addresses this with:
 
-| Base Model              | Method                                      | Inference Environment | NQ   | TQ   | HotpotQA | 2Wiki | Musique | Bamboogle | PopQA | agg  |
-| :---------------------- | :------------------------------------------ | :-------------------- | :--- | :--- | :------- | :---- | :------ | :-------- | :---- | :--- |
-| **Qwen2.5-7B-Instruct** | DeepResearcher                              | Web Search            | 39.6 | 78.4 | 52.8     | 59.7  | 27.1    | 71.0      | 48.5  | 53.9 |
-| **Qwen2.5-7B-Instruct** | DeepResearcher\_add\_process\_level\_reward | web\_search           | 40.1 | 78.2 | 53.5     | 60.0  | 25.7    | 70.5      | 48.8  | 53.8 |
-| **Qwen2.5-7B-Instruct** | atom\_searcher                              | web search            | 43.8 | 81.8 | 55.7     | 64.6  | 27.6    | 70.7      | 50.3  | 56.4 |
+  - 🔹 **Reasoning Reward Models (RRMs):** An RRM scores each individual Atomic Thought, providing dense, fine-grained process-level rewards called Atomic Thought Rewards (ATR).
+  - 🔹 **Curriculum-Inspired Reward Schedule:** The framework dynamically balances the weight of process-level ATR and final outcome rewards. Early in training, it prioritizes good reasoning (ATR), and as the agent improves, it shifts focus to correct answers.
+  - 🔹 **Efficient Optimization:** This hybrid reward structure alleviates reward sparsity and guides the agent to discover effective reasoning paths much faster.
 
 -----
 
-## Model Weights
+### 🚀 SOTA Performance and Scalable Reasoning
 
-We have open-sourced the model weights trained with the Atom-Searcher framework. You can download them from the Hugging Face Hub via the following link:
+We demonstrate through extensive experiments that Atom-Searcher sets a new state-of-the-art in agentic deep research.
 
-  - **Atom-Searcher (Qwen2.5-7B-Instruct)**: [🤗 Hugging Face Model (insert your link here)](https://www.google.com/search?q=https://huggingface.co/your-username/your-model-name)
+  - 📈 It achieves significant performance gains over strong baselines like **DeepResearcher** and **R1-Searcher** on seven distinct benchmarks.
+  - 🧠 At test time, Atom-Searcher **scales its computation effectively**, generating 3.2x more tokens and making 1.24x more tool calls on average than the SOTA baseline, indicating deeper exploration and reasoning without explicit incentives.
+
+👉[Hugging Face Model](https://www.google.com/search?q=https://huggingface.co/collections/ant-group/atom-searcher)
 
 -----
 
-## 🚀 How to Use
+
+
+
+## Evaluation
+
+Atom-Searcher's effectiveness is validated across a diverse set of seven open-domain QA benchmarks
+
+### Main Results on In-Domain and Out-of-Domain Benchmarks
+
+Atom-Searcher consistently outperforms both training-based and prompt-based methods. [cite\_start]All scores are F1 scores[cite: 317].
+
+| **Type** | **Method** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Prompt Based | Search-al-Web | 32.4 | 58.9 | 33.0 | 30.9 | 14.7 | 46.6 | 38.3 |
+| Training Based | Search-R1-Instruct | 33.1 | 44.7 | 45.7 | 43.4 | 26.5 | 45.0 | 43.0 |
+| | R1-Searcher | 35.4 | 73.1 | 44.8 | 59.4 | 22.8 | 64.8 | 42.7 |
+| | DeepResearcher | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | **71.0** | 48.5 |
+| | **Atom-Searcher (Ours)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | 70.7 | **50.3** |
+
+> 🔝 **Experimental results show that Atom-Searcher achieves new state-of-the-art performance on 6 out of 7 benchmarks, with an average improvement of 8.5% on in-domain tasks and 2.5% on out-of-domain tasks over the previous SOTA, DeepResearcher.**
+
+### Ablation Study
+
+The ablation study confirms that both **Atomic Thought** and the **Reasoning Reward Model (RRM)** are critical for performance. [cite\_start]Adding RRM rewards without the structured Atomic Thoughts provides minimal benefit[cite: 351, 352].
+
+| **Method** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Base (DeepResearcher) | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | 71.0 | 48.5 |
+| + RRM | 40.1 | 78.2 | 53.5 | 60.0 | 25.7 | 70.5 | 48.8 |
+| **Atom-Searcher (Base + RRM + Atomic Thought)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | **70.7** | **50.3** |
+
+# Citation
+
+Please consider citing if you find our work useful:
+
+```plain
+@misc{deng2025atomsearcherenhancingagenticdeep,
+      title={Atom-Searcher: Enhancing Agentic Deep Research via Fine-Grained Atomic Thought Reward}, 
+      author={Yong Deng and Guoqing Wang and Zhenzhe Ying and Xiaofeng Wu and Jinzhen Lin and Wenwen Xiong and Yuqin Dai and Shuo Yang and Zhanwei Zhang and Qiwen Wang and Yang Qin and Changhua Meng},
+      year={2025},
+      eprint={2508.12800},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2508.12800}, 
+}
+```

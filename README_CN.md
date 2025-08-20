@@ -1,75 +1,125 @@
-# Atom-Searcher: 通过细粒度原子思想奖励增强智能体深度研究
+好的，这是您提供的 README 文件的中文翻译版本：
 
-## 📖 简介
+# ⚛️ Atom-Searcher: 通过细粒度原子化思想奖励增强智能体的深度研究能力
 
-**Atom-Searcher** 是一个创新的强化学习 (RL) 框架，旨在提升大语言模型 (LLM) 在**智能体深度研究 (Agentic Deep Research)** 任务中的性能。
+<p align="center">
+<a href="https://arxiv.org/abs/2508.12800" target="_blank">
+<img src="https://img.shields.io/badge/arXiv-2508.12800-b31b1b.svg?style=for-the-badge" alt="ArXiv">
+</a>
+<a href="https://huggingface.co/collections/ant-group/atom-searcher" target="_blank">
+<img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow?style=for-the-badge" alt="Hugging Face">
+</a>
+<a href="https://github.com/antgroup/Research-Venus" target="_blank">
+<img src="https://img.shields.io/badge/GitHub-Repo-blue?style=for-the-badge&logo=github" alt="GitHub">
+</a>
+</p>
 
-尽管现有的智能体研究系统能够自主推理和搜索，但它们在训练中严重依赖稀疏的、仅基于最终结果的奖励信号。这种方式会导致梯度冲突和训练效率低下，限制了模型学习最优研究策略的能力。
 
-为了解决这些挑战，我们引入了两个核心概念：
 
-1.  **原子思想 (Atomic Thoughts)**：我们将模型的推理过程分解为最小的、具有功能意义的单元（如 `规划`、`反思`、`验证` 等）。
-2.  **原子思想奖励 (Atomic Thought Reward, ATR)**：我们使用一个推理奖励模型 (RRM) 对这些原子思想进行打分，提供细粒度的过程级反馈。
+## 📖 引言
 
-Atom-Searcher 采用了一种受课程学习启发的动态奖励聚合策略，在训练初期侧重于过程级的 **ATR**，并随训练进程将重心逐渐转移到结果奖励上。这种设计有效缓解了梯度冲突和奖励稀疏问题，引导模型更高效地收敛到有效的推理路径。
+Atom-Searcher 是一个旨在增强大语言模型（LLMs）深度研究能力的新颖框架。尽管 LLMs 展现出巨大潜力，但其静态的内部知识限制了它们处理复杂、多步骤任务的能力。现有的方法，如检索增强生成（RAG）和基于结果的强化学习（RL），常常因其固化的工作流程、奖励稀疏性以及训练过程中的梯度冲突而表现不佳。
 
------
+为克服这些挑战，我们引入了 **Atom-Searcher**，这是一个建立在**原子化思想（Atomic Thought）概念之上的全新强化学习框架。该范式将复杂的推理过程分解为细粒度的功能单元。每一个“原子化思想”都由一个推理奖励模型（Reasoning Reward Model, RRM）进行评估，从而提供细粒度的原子化思想奖励（Atomic Thought Reward, ATR）**，用以指导智能体的学习过程。
 
-## 🚀 核心特性
+该框架采用了一种受课程学习启发的奖励机制，在初期优先奖励高质量的推理过程，随后再将重点转移到最终结果上，从而加速发现有效的问题解决策略。
 
-  * **原子思想抽象**：首次提出将 LLM 的推理过程分解为功能性的“原子思想”，并激励模型自主归纳这些思想，增强了模型行为的可解释性。
-  * **细粒度奖励机制**：设计了基于原子思想的奖励 (ATR)，为 RL 训练提供密集、有意义的中间信号，解决了传统方法中存在的梯度冲突和奖励稀疏问题。
-  * **动态奖励调度**：采用动态变化的权重来聚合过程奖励 (ATR) 和结果奖励 (F1 分数)，使奖励机制能够适应模型的学习动态，在训练早期侧重探索，后期侧重收敛。
-  * **卓越的性能**：在 7 个权威的问答基准测试中（包括领域内和领域外），Atom-Searcher 显著优于现有的同级别 SOTA 智能体研究模型。
+Atom-Searcher 的主要优势包括：
 
------
+  * **最先进的性能**：在七个不同的基准测试中，相较于现有模型均取得了一致的提升。
+  * **增强的可解释性**：通过分解其思考过程，展现出更类似人类且易于理解的推理模式。
+  * **高效的训练**：缓解了奖励稀疏性和梯度冲突问题，使策略优化更为高效。
+  * **可扩展的计算能力**：在测试时能有效扩展其计算投入，以解决更复杂的查询。
 
-## 🛠️ 工作原理
+<p align="center">
+<img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
+</p>
 
-Atom-Searcher 框架包含监督微调 (SFT) 和强化学习 (RL) 两个阶段。
+# 概览
 
-*图 1: Atom-Searcher 框架概览。首先通过 SFT 教授模型生成原子思想的能力，然后利用混合奖励信号进行 RL 优化。*
-
-### 1\. 原子思想 (Atomic Thoughts)
-
-我们将模型的思考过程 `<think>...</think>` 分解为一系列更细粒度的原子思想，如 `<plan>`, `<reflection>`, `<verification>` 等。我们不预设固定的原子思想集合，而是通过 SFT 引导模型根据不同任务自主学习如何分解其推理过程。
-
-### 2\. 奖励建模
-
-最终用于 RL 训练的奖励 $R$ 是一个混合信号，它动态地结合了**原子思想奖励** ($R\_{atom}$) 和**结果奖励** ($R\_{f1}$)。
-
-  - **原子思想奖励 ($R\_{atom}$)**: 我们使用一个强大的推理奖励模型 (RRM, 如 Qwen3-30B) 来评估模型生成的每个原子思想的质量，并将这些分数聚合为 $R\_{atom}$。
-  - **结果奖励 ($R\_{f1}$)**: 基于模型最终答案与参考答案之间的 F1 分数计算。
-  - **动态聚合**: 我们使用一个线性衰减的系数 $\\alpha$ 来平衡这两种奖励。
-
-$$R = \alpha \cdot R_{\text{atom}} + (1 - \alpha) \cdot R_{f1}$$
-
-其中，$\\alpha = 0.5 \\times (1 - \\frac{T}{T\_{\\text{MAX}}})$, $T$ 是当前训练步数，$T\_{\\text{MAX}}$ 是总训练步数。在训练初期，$\\alpha$ 较大，过程奖励占主导；随着训练的进行，$\\alpha$ 减小，结果奖励的权重增加。
-
-### 3\. 强化学习训练
-
-我们使用 **GRPO (Group Relative Policy Optimization)** 算法，结合上述混合奖励 $R$ 对 SFT 初始化后的策略模型进行优化。此外，我们还引入了**滑动窗口熵调节机制 (SWERM)** 来防止策略熵崩溃，确保训练的稳定性。
+  * [主要亮点](https://www.google.com/search?q=%23key-highlights)
+  * [评估](https://www.google.com/search?q=%23evaluation)
+  * [引用](https://www.google.com/search?q=%23citation)
 
 -----
 
-## 📊 主要结果
+# ✨ 主要亮点
 
-我们在 4 个领域内 (ID) 和 3 个领域外 (OOD) 数据集上评估了 Atom-Searcher。实验结果表明，在 Qwen2.5-7B-Instruct 主干模型上，Atom-Searcher 全面超越了包括 DeepResearcher 在内的所有基线模型。
-
-| Base Model | Method | Inference Environment | NQ | TQ | HotpotQA | 2Wiki | Musique | Bamboogle | PopQA | agg |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Qwen2.5-7B-Instruct** | DeepResearcher | Web Search | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | 71.0 | 48.5 | 53.9 |
-| **Qwen2.5-7B-Instruct** | DeepResearcher\_add\_process\_level\_reward | web\_search | 40.1 | 78.2 | 53.5 | 60.0 | 25.7 | 70.5 | 48.8 | 53.8 |
-| **Qwen2.5-7B-Instruct** | atom\_searcher | web search | 43.8 | 81.8 | 55.7 | 64.6 | 27.6 | 70.7 | 50.3 | 56.4 |
+我们推出了 **Atom-Searcher**，一个旨在提升智能体深度研究能力的框架。它通过优化推理过程本身，而不仅仅是最终结果，显著提高了 LLM 解决问题的能力。
 
 -----
 
-## 权重下载 (Model Weights)
+### 💡 引入“原子化思想”范式
 
-我们开源了经过 Atom-Searcher 框架训练后的模型权重，您可以通过以下链接在 Hugging Face Hub 上下载：
+我们提出了**原子化思想（Atomic Thought）**，这是一种新颖的思维范式，它将复杂的推理过程分解为细粒度的、可解释的功能单元。智能体不再生成一个单一、庞大的思想块，而是生成一系列原子化的思想，如 `<OBSERVATION>`（观察）、`<HYPOTHESIS_TESTING>`（假设检验）和 `<RISK_ANALYSIS>`（风险分析）。这种结构化的方法带来了：
 
-  - **Atom-Searcher (Qwen2.5-7B-Instruct)**: [🤗 Hugging Face 模型地址 (在此处插入您的链接)](https://www.google.com/search?q=https://huggingface.co/your-username/your-model-name)
+  - ✅ 更类似人类、可解释且更深入的推理模式
+  - ✅ 在测试时可扩展计算资源
+  - ✅ 为推理奖励模型（RRM）提供监督锚点，将深度研究任务与 RRM 联系起来。
 
 -----
 
-## 🚀 如何使用
+### 🎯 结合细粒度奖励的过程监督强化学习
+
+当前的智能体依赖于基于结果的强化学习（RL），但这种方法存在**奖励稀疏性**和**梯度冲突**的问题——即因为一个最终答案的错误而惩罚整个推理链。Atom-Searcher 通过以下方式解决此问题：
+
+  - 🔹 **推理奖励模型（RRM）：** RRM 为每一个独立的原子化思想打分，提供密集的、细粒度的过程级奖励，我们称之为原子化思想奖励（ATR）。
+  - 🔹 **课程学习式奖励策略：** 该框架动态平衡过程级 ATR 和最终结果奖励的权重。在训练初期，它优先鼓励良好的推理过程（ATR），随着智能体能力的提升，逐渐将重点转移到产出正确答案上。
+  - 🔹 **高效优化：** 这种混合奖励结构缓解了奖励稀疏性问题，并引导智能体更快地发现有效的推理路径。
+
+-----
+
+### 🚀 SOTA 性能与可扩展的推理能力
+
+我们通过大量实验证明，Atom-Searcher 在智能体深度研究领域树立了新的技术标杆（SOTA）。
+
+  - 📈 在七个不同的基准测试中，它相较于 **DeepResearcher** 和 **R1-Searcher** 等强大的基线模型取得了显著的性能提升。
+  - 🧠 在测试时，Atom-Searcher 能**有效地扩展其计算资源**，与 SOTA 基线模型相比，平均多生成 3.2 倍的 token 并多进行 1.24 倍的工具调用，这表明在没有明确激励的情况下，它也能进行更深度的探索和推理。
+
+👉[Hugging Face 模型](https://www.google.com/search?q=https://huggingface.co/collections/ant-group/atom-searcher)
+
+-----
+
+## 评估
+
+Atom-Searcher 的有效性在一系列多样化的开放域问答（QA）基准测试中得到了验证，共涵盖七个数据集。
+
+### 在域内和域外基准测试上的主要结果
+
+Atom-Searcher 的表现始终优于基于训练和基于提示的方法。所有分数均为 F1 分数。
+
+| **类型** | **方法** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 基于提示 | Search-al-Web | 32.4 | 58.9 | 33.0 | 30.9 | 14.7 | 46.6 | 38.3 |
+| 基于训练 | Search-R1-Instruct | 33.1 | 44.7 | 45.7 | 43.4 | 26.5 | 45.0 | 43.0 |
+| | R1-Searcher | 35.4 | 73.1 | 44.8 | 59.4 | 22.8 | 64.8 | 42.7 |
+| | DeepResearcher | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | **71.0** | 48.5 |
+| | **Atom-Searcher (我们的模型)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | 70.7 | **50.3** |
+
+> 🔝 **实验结果表明，Atom-Searcher 在 7 个基准测试中的 6 个上取得了新的 SOTA 性能，与之前的 SOTA 模型 DeepResearcher 相比，在域内任务上平均提升了 8.5%，在域外任务上平均提升了 2.5%。**
+
+### 消融实验
+
+消融实验证实，**原子化思想**和\*\*推理奖励模型（RRM）\*\*对性能都至关重要。在没有结构化原子思想的情况下，仅添加 RRM 奖励所带来的收益微乎其微。
+
+| **方法** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 基线 (DeepResearcher) | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | 71.0 | 48.5 |
+| + RRM | 40.1 | 78.2 | 53.5 | 60.0 | 25.7 | 70.5 | 48.8 |
+| **Atom-Searcher (基线 + RRM + 原子化思想)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | **70.7** | **50.3** |
+
+# 引用
+
+如果您觉得我们的工作对您有用，请考虑引用：
+
+```plain
+@misc{deng2025atomsearcherenhancingagenticdeep,
+      title={Atom-Searcher: Enhancing Agentic Deep Research via Fine-Grained Atomic Thought Reward}, 
+      author={Yong Deng and Guoqing Wang and Zhenzhe Ying and Xiaofeng Wu and Jinzhen Lin and Wenwen Xiong and Yuqin Dai and Shuo Yang and Zhanwei Zhang and Qiwen Wang and Yang Qin and Changhua Meng},
+      year={2025},
+      eprint={2508.12800},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2508.12800}, 
+}
+```
