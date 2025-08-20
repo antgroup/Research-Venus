@@ -38,8 +38,6 @@ Key advantages of Atom-Searcher include:
 # Overview
 
   * [Key Highlights](https://www.google.com/search?q=%23key-highlights)
-  * [Installation](https://www.google.com/search?q=%23installation)
-  * [Quick Start](https://www.google.com/search?q=%23quick-start)
   * [Evaluation](https://www.google.com/search?q=%23evaluation)
   * [Citation](https://www.google.com/search?q=%23citation)
 
@@ -53,7 +51,7 @@ We introduce **Atom-Searcher**, an agentic deep research framework that signific
 
 ### 💡 Introducing the "Atomic Thought" Paradigm
 
-We propose **Atomic Thought**, a novel thinking paradigm that decomposes complex reasoning into fine-grained, interpretable functional units. [cite\_start]Instead of a single monolithic block of thought, the agent generates a sequence of atomic thoughts like `<OBSERVATION>`, `<HYPOTHESIS_TESTING>`, and `<RISK_ANALYSIS>`  This structured approach leads to:
+We propose **Atomic Thought**, a novel thinking paradigm that decomposes complex reasoning into fine-grained, interpretable functional units. Instead of a single monolithic block of thought, the agent generates a sequence of atomic thoughts like `<OBSERVATION>`, `<HYPOTHESIS_TESTING>`, and `<RISK_ANALYSIS>`  This structured approach leads to:
 
   - ✅ More human-like, interpretable, and in-depth reasoning patterns
   - ✅ Scales computation at test-time
@@ -92,7 +90,7 @@ Atom-Searcher's effectiveness is validated across a diverse set of seven open-do
 
 ### Main Results on In-Domain and Out-of-Domain Benchmarks
 
-Atom-Searcher consistently outperforms both training-based and prompt-based methods. [cite\_start]All scores are F1 scores[cite: 317].
+Atom-Searcher consistently outperforms both training-based and prompt-based methods. All scores are F1 scores.
 
 | **Type** | **Method** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -106,7 +104,7 @@ Atom-Searcher consistently outperforms both training-based and prompt-based meth
 
 ### Ablation Study
 
-The ablation study confirms that both **Atomic Thought** and the **Reasoning Reward Model (RRM)** are critical for performance. [cite\_start]Adding RRM rewards without the structured Atomic Thoughts provides minimal benefit[cite: 351, 352].
+The ablation study confirms that both **Atomic Thought** and the **Reasoning Reward Model (RRM)** are critical for performance. Adding RRM rewards without the structured Atomic Thoughts provides minimal benefit.
 
 | **Method** | **NQ** | **TQ** | **HotpotQA** | **2Wiki** | **Musique** | **Bamboogle** | **PopQA** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
