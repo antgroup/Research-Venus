@@ -5,7 +5,7 @@
 <a href="https://arxiv.org/abs/2508.12800" target="_blank">
 <img src="https://img.shields.io/badge/arXiv-2508.12800-b31b1b.svg?style=for-the-badge" alt="ArXiv">
 </a>
-<a href="https://huggingface.co/collections/ant-group/atom-searcher" target="_blank">
+<a href=https://huggingface.co/dikw/Atom-Searcher" target="_blank">
 <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow?style=for-the-badge" alt="Hugging Face">
 </a>
 <a href="https://github.com/antgroup/Research-Venus" target="_blank">
@@ -75,7 +75,6 @@ Atom-Searcher 的主要优势包括：
   - 📈 在七个不同的基准测试中，它相较于 **DeepResearcher** 和 **R1-Searcher** 等强大的基线模型取得了显著的性能提升。
   - 🧠 在测试时，Atom-Searcher 能**有效地扩展其计算资源**，与 SOTA 基线模型相比，平均多生成 3.2 倍的 token 并多进行 1.24 倍的工具调用，这表明在没有明确激励的情况下，它也能进行更深度的探索和推理。
 
-👉[Hugging Face 模型](https://www.google.com/search?q=https://huggingface.co/collections/ant-group/atom-searcher)
 
 -----
 

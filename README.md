@@ -77,7 +77,6 @@ We demonstrate through extensive experiments that Atom-Searcher sets a new state
   - 📈 It achieves significant performance gains over strong baselines like **DeepResearcher** and **R1-Searcher** on seven distinct benchmarks.
   - 🧠 At test time, Atom-Searcher **scales its computation effectively**, generating 3.2x more tokens and making 1.24x more tool calls on average than the SOTA baseline, indicating deeper exploration and reasoning without explicit incentives.
 
-👉[Hugging Face Model](https://huggingface.co/dikw/Atom-Searcher)
 
 -----
 
