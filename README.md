@@ -4,7 +4,7 @@
 <a href="https://arxiv.org/abs/2508.12800" target="_blank">
 <img src="https://img.shields.io/badge/arXiv-2508.12800-b31b1b.svg?style=for-the-badge" alt="ArXiv">
 </a>
-<a href="https://huggingface.co/collections/ant-group/atom-searcher" target="_blank">
+<a href="https://huggingface.co/dikw/Atom-Searcher" target="_blank">
 <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow?style=for-the-badge" alt="Hugging Face">
 </a>
 <a href="https://github.com/antgroup/Research-Venus" target="_blank">
@@ -77,7 +77,7 @@ We demonstrate through extensive experiments that Atom-Searcher sets a new state
   - 📈 It achieves significant performance gains over strong baselines like **DeepResearcher** and **R1-Searcher** on seven distinct benchmarks.
   - 🧠 At test time, Atom-Searcher **scales its computation effectively**, generating 3.2x more tokens and making 1.24x more tool calls on average than the SOTA baseline, indicating deeper exploration and reasoning without explicit incentives.
 
-👉[Hugging Face Model](https://www.google.com/search?q=https://huggingface.co/collections/ant-group/atom-searcher)
+👉[Hugging Face Model](https://huggingface.co/dikw/Atom-Searcher)
 
 -----
 
