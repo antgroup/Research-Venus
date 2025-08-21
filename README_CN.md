@@ -35,12 +35,11 @@ Atom-Searcher 的主要优势包括：
 <img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
 </p>
 
-
-
-
 <p align="center">
 <img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
 </p>
+-----
+
 
 
 # 概览

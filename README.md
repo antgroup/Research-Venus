@@ -33,7 +33,12 @@ Key advantages of Atom-Searcher include:
 <p align="center">
 <img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
 </p>
+
+<p align="center">
+<img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
+</p>
 -----
+
 
 # Overview
 
