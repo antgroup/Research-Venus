@@ -30,9 +30,18 @@ Atom-Searcher 的主要优势包括：
   * **高效的训练**：缓解了奖励稀疏性和梯度冲突问题，使策略优化更为高效。
   * **可扩展的计算能力**：在测试时能有效扩展其计算投入，以解决更复杂的查询。
 
+
 <p align="center">
 <img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
 </p>
+
+
+
+
+<p align="center">
+<img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
+</p>
+
 
 # 概览
 
