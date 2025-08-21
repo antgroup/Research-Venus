@@ -116,6 +116,16 @@ The ablation study confirms that both **Atomic Thought** and the **Reasoning Rew
 | + RRM | 40.1 | 78.2 | 53.5 | 60.0 | 25.7 | 70.5 | 48.8 |
 | **Atom-Searcher (Base + RRM + Atomic Thought)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | **70.7** | **50.3** |
 
+
+### Case Study
+
+<p align="center">
+<img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
+</p>
+
+
+
+
 # Citation
 
 Please consider citing if you find our work useful:

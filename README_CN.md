@@ -35,9 +35,7 @@ Atom-Searcher 的主要优势包括：
 <img src="png/sota_results.png" alt="Atom-Searcher SOTA Performance"/>
 </p>
 
-<p align="center">
-<img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
-</p>
+
 -----
 
 
@@ -113,6 +111,15 @@ Atom-Searcher 的表现始终优于基于训练和基于提示的方法。所有
 | 基线 (DeepResearcher) | 39.6 | 78.4 | 52.8 | 59.7 | 27.1 | 71.0 | 48.5 |
 | + RRM | 40.1 | 78.2 | 53.5 | 60.0 | 25.7 | 70.5 | 48.8 |
 | **Atom-Searcher (基线 + RRM + 原子化思想)** | **44.0** | **81.8** | **57.3** | **66.9** | **27.6** | **70.7** | **50.3** |
+
+### 样例分析
+
+<p align="center">
+<img src="png/case_study.png" alt="diff Atom-Searcher  and Deep-Researcher"/>
+</p>
+
+
+
 
 # 引用
 
